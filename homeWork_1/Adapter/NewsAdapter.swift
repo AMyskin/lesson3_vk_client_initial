@@ -34,6 +34,7 @@ class NewsAdapter: VkApiFeedsDelegate {
         completion(feeds)
     }
     
+    // не знаю как правильно сделать адаптер
     func returnNews(completion: @escaping ([VkFeed]) -> Void) {
         completion(feeds)
     }
