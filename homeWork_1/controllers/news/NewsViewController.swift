@@ -19,7 +19,7 @@ class NewsViewController: UIViewController {
     
     //MARK: Adapter
     private var news: [VkFeed] = []
-    private let weatherService = NewsAdapter()
+    private let newsService = NewsAdapter()
     
     //MARK: Factory
     private let viewModelFactory = NewsViewsModelFactory()
@@ -37,9 +37,10 @@ class NewsViewController: UIViewController {
        // setObserver()
         setTableViewSettings()
         //prepareGetFeeds(needClearNews: true)
-        weatherService.returnNews { (news) in
+        newsService.prepareGetFeeds(needClearNews: true) { (news) in
             self.news = news
             self.viewModels = self.viewModelFactory.constructViewModels(from: news)
+            self.tableView.reloadData()
         }
     }
     
@@ -129,14 +130,14 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
 //    }
     
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//
-//        textHeight = viewModels[indexPath.row].labelText.count > 0 ? 70 : 0
-//        imageHeight = viewModels[indexPath.row].attachments.count > 0 ? self.view.frame.width * CGFloat(feeds[indexPath.row].attachments[0].height) / CGFloat(feeds[indexPath.row].attachments[0].width) : 0
-//        let height = CGFloat(10 + 10 + 60 + imageHeight + textHeight + 40 + 10)
-//
-//        return height
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        textHeight = viewModels[indexPath.row].labelText.count > 0 ? 70 : 0
+       imageHeight = viewModels[indexPath.row].attachments.count > 0 ? self.view.frame.width * CGFloat(viewModels[indexPath.row].attachments[0].height) / CGFloat(viewModels[indexPath.row].attachments[0].width) : 0
+        let height = CGFloat(10 + 10 + 60 + imageHeight + textHeight + 40 + 10)
+
+        return height
+    }
 
 }
 

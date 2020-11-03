@@ -199,7 +199,7 @@ class AlamofireService {
     }
     
     
-    func getNews(startFrom: String, delegate: VkApiFeedsDelegate) {
+    func getNews(startFrom: String, completion: @escaping ([VkFeed]) -> Void) {
         let method = "newsfeed.get"
         let fullRow = "\(GlobalConstants.vkApi)\(method)"
         let params: Parameters = [
@@ -215,7 +215,7 @@ class AlamofireService {
             .responseJSON(queue: DispatchQueue.global(qos: .userInteractive)) { response in
                 let feeds = VkResponseParser.instance.parseNews(result: response.result)
                 DispatchQueue.main.async {
-                    delegate.returnFeeds(feeds)
+                    completion(feeds)
                 }
         }
     }
