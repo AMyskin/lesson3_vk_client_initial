@@ -18,6 +18,7 @@ struct NewsViewsModel {
     var labelShare : String
     var labelComment : String
     var newsImage : UIImageView
+    var attachments = [VkAttachment]()
 }
 
 

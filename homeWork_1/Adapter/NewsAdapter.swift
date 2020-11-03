@@ -23,20 +23,22 @@ class NewsAdapter: VkApiFeedsDelegate {
     private var needClearNews = true
     private var isLoad = false
     
-    private func prepareGetFeeds(needClearNews: Bool) {
+    func prepareGetFeeds(needClearNews: Bool , completion: @escaping ([VkFeed]) -> Void) {
         isLoad = true
         self.needClearNews = needClearNews
-        AlamofireService.instance.getNews(startFrom: needClearNews ? "":startFrom, delegate: self)
+        AlamofireService.instance.getNews(startFrom: needClearNews ? "":startFrom){ (news) in
+            
+            completion(news)
+        }
     }
     
     func getNews(  completion: @escaping ([VkFeed]) -> Void) {
-        prepareGetFeeds(needClearNews: true)
-        completion(feeds)
+        prepareGetFeeds(needClearNews: true){ (news) in
+            completion(news)
+        }
+        
     }
     
-    func returnNews(completion: @escaping ([VkFeed]) -> Void) {
-        completion(feeds)
-    }
-    
+
     
 }
